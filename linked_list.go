@@ -39,9 +39,11 @@ func compareInt(a, b int) int {
 	return EqualTo
 }
 
-func (self *LinkedListNode) Partition(data interface{}) *LinkedListNode {
+// Partition returns a new LinkedList such that: [ before < pivot < after ]
+// This doesn't sort, it just buckets according to less / greater than
+func (self *LinkedListNode) Partition(pivot interface{}) *LinkedListNode {
 	// Not found
-	if self.Find(data) == nil {
+	if self.Find(pivot) == nil {
 		return self
 	}
 
@@ -56,7 +58,7 @@ func (self *LinkedListNode) Partition(data interface{}) *LinkedListNode {
 		}
 
 		// put into appropriate bucket
-		switch self.Compare(node.data, data) {
+		switch self.Compare(node.data, pivot) {
 		case EqualTo:
 			before.Append(node.data)
 		case LessThan:
