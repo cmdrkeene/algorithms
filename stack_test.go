@@ -6,6 +6,9 @@ func TestStack(t *testing.T) {
 	// New
 	stack := NewStack()
 
+	// Size
+	Expect(t).Equal(stack.Size(), 0)
+
 	// Push
 	stack.Push(1, 2, 3)
 

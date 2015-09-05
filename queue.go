@@ -1,20 +1,86 @@
 package algorithms
 
-func NewQueue() *Queue {
-	return &Queue{list: NewLinkedList()}
+type Queue interface {
+	Enqueue(...interface{})
+	Dequeue() interface{}
+	Peek() interface{}
+	Size() int
+	Empty() bool
 }
 
-type Queue struct {
+func NewStackQueue() *StackQueue {
+	return &StackQueue{
+		forward: NewStack(),
+		reverse: NewStack(),
+	}
+}
+
+type StackQueue struct {
+	forward *Stack
+	reverse *Stack
+}
+
+func (self *StackQueue) Enqueue(elements ...interface{}) {
+	self.forward.Push(elements...)
+}
+
+func (self *StackQueue) swap() {
+	for {
+		data := self.forward.Pop()
+		if data == nil {
+			break
+		}
+		self.reverse.Push(data)
+	}
+}
+
+func (self *StackQueue) restore() {
+	for {
+		data := self.reverse.Pop()
+		if data == nil {
+			return
+		}
+		self.forward.Push(data)
+	}
+}
+
+func (self *StackQueue) Dequeue() interface{} {
+	self.swap()
+	data := self.reverse.Pop()
+	self.restore()
+	return data
+}
+
+func (self *StackQueue) Peek() interface{} {
+	self.swap()
+	data := self.reverse.Peek()
+	self.restore()
+	return data
+}
+
+func (self *StackQueue) Size() int {
+	return self.forward.Size()
+}
+
+func (self *StackQueue) Empty() bool {
+	return self.forward.Size() == 0
+}
+
+func NewLinkedListQueue() *LinkedListQueue {
+	return &LinkedListQueue{list: NewLinkedList()}
+}
+
+type LinkedListQueue struct {
 	list *LinkedListNode
 }
 
-func (self *Queue) Enqueue(elements ...interface{}) {
+func (self *LinkedListQueue) Enqueue(elements ...interface{}) {
 	for _, e := range elements {
 		self.list = self.list.Append(e)
 	}
 }
 
-func (self *Queue) Dequeue() interface{} {
+func (self *LinkedListQueue) Dequeue() interface{} {
 	if self.list.Empty() {
 		return nil
 	}
@@ -24,14 +90,14 @@ func (self *Queue) Dequeue() interface{} {
 	return head
 }
 
-func (self *Queue) Empty() bool {
+func (self *LinkedListQueue) Empty() bool {
 	return self.list.Empty()
 }
 
-func (self *Queue) Size() int {
+func (self *LinkedListQueue) Size() int {
 	return self.list.Size()
 }
 
-func (self *Queue) Peek() interface{} {
+func (self *LinkedListQueue) Peek() interface{} {
 	return self.list.Data()
 }

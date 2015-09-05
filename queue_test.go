@@ -2,8 +2,17 @@ package algorithms
 
 import "testing"
 
-func TestQueue(t *testing.T) {
-	queue := NewQueue()
+func TestQueue_Stack(t *testing.T) {
+	runQueueTest(t, NewStackQueue())
+}
+
+func TestQueue_LinkedList(t *testing.T) {
+	runQueueTest(t, NewLinkedListQueue())
+}
+
+func runQueueTest(t *testing.T, queue Queue) {
+	// Empty
+	Expect(t).Equal(queue.Size(), 0)
 
 	// Enqueue
 	queue.Enqueue(1, 2, 3)
