@@ -2,6 +2,48 @@ package algorithms
 
 import "testing"
 
+func TestLinkedList_Parition(t *testing.T) {
+	Expect(t).Equal(
+		NewLinkedList(5, 4, 3, 1, 2).Partition(3),
+		NewLinkedList(1, 2, 3, 5, 4),
+	)
+}
+
+func TestLinkedList_ParitionMiddle(t *testing.T) {
+	Expect(t).Equal(
+		NewLinkedList(1, 2, 3).Partition(2),
+		NewLinkedList(1, 2, 3),
+	)
+}
+
+func TestLinkedList_ParitionHead(t *testing.T) {
+	Expect(t).Equal(
+		NewLinkedList(1, 2, 3).Partition(1),
+		NewLinkedList(1, 2, 3),
+	)
+}
+
+func TestLinkedList_ParitionTail(t *testing.T) {
+	Expect(t).Equal(
+		NewLinkedList(1, 2, 3).Partition(2),
+		NewLinkedList(1, 2, 3),
+	)
+}
+
+func TestLinkedList_ParitionDuplicate(t *testing.T) {
+	Expect(t).Equal(
+		NewLinkedList(1, 2, 2, 3).Partition(2),
+		NewLinkedList(1, 2, 2, 3),
+	)
+}
+
+func TestLinkedList_ParitionNotFound(t *testing.T) {
+	Expect(t).Equal(
+		NewLinkedList(1, 2, 3).Partition(4),
+		NewLinkedList(1, 2, 3),
+	)
+}
+
 func TestLinkedList_FindLoopWithoutLoop(t *testing.T) {
 	if NewLinkedList(1, 2, 3).FindLoop() != nil {
 		t.Error("no loop exists")
@@ -46,7 +88,7 @@ func TestLinkedList_Size(t *testing.T) {
 
 func TestLinkedList_RemoveHead(t *testing.T) {
 	// given
-	list := NewLinkedList().Add(1).Add(2).Add(3)
+	list := NewLinkedList().Append(1).Append(2).Append(3)
 
 	// when
 	list = list.Remove(1)
@@ -57,7 +99,7 @@ func TestLinkedList_RemoveHead(t *testing.T) {
 
 func TestLinkedList_RemoveTail(t *testing.T) {
 	// given
-	list := NewLinkedList().Add(1).Add(2).Add(3)
+	list := NewLinkedList().Append(1).Append(2).Append(3)
 
 	// when
 	list.Remove(3)
@@ -68,7 +110,7 @@ func TestLinkedList_RemoveTail(t *testing.T) {
 
 func TestLinkedList_RemoveNotFound(t *testing.T) {
 	// given
-	list := NewLinkedList().Add(1).Add(2).Add(3)
+	list := NewLinkedList().Append(1).Append(2).Append(3)
 
 	// when
 	list.Remove(4)
@@ -79,7 +121,7 @@ func TestLinkedList_RemoveNotFound(t *testing.T) {
 
 func TestLinkedList_RemoveBody(t *testing.T) {
 	// given
-	list := NewLinkedList().Add(1).Add(2).Add(3)
+	list := NewLinkedList().Append(1).Append(2).Append(3)
 
 	// when
 	list = list.Remove(2)

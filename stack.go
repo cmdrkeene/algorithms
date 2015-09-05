@@ -16,7 +16,7 @@ func (s *Stack) Peek() interface{} {
 
 func (s *Stack) Push(elements ...interface{}) {
 	for _, e := range elements {
-		s.list = s.list.Add(e)
+		s.list = s.list.Append(e)
 	}
 }
 

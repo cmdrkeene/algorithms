@@ -11,7 +11,7 @@ func NewLinkedList(elements ...interface{}) *LinkedListNode {
 	} else {
 		head := &LinkedListNode{data: elements[0]}
 		for _, e := range elements[1:] {
-			head.Add(e)
+			head.Append(e)
 		}
 		return head
 	}
@@ -20,6 +20,58 @@ func NewLinkedList(elements ...interface{}) *LinkedListNode {
 type LinkedListNode struct {
 	data interface{}
 	next *LinkedListNode
+}
+
+func (self *LinkedListNode) Partition(data interface{}) *LinkedListNode {
+	found := self.Find(data)
+
+	// Not found
+	if found == nil {
+		return self
+	}
+
+	// Two buckets, ignoring found
+	before := NewLinkedList()
+	after := NewLinkedList()
+	node := self
+	for {
+		if node == nil {
+			break
+		}
+
+		// ignore found
+		if node != found {
+			// put into appropriate bucket
+			if node.data.(int) < data.(int) {
+				before = before.Append(node.data)
+			} else {
+				after = after.Append(node.data)
+			}
+		}
+
+		// advance cusror
+		node = node.next
+	}
+
+	// append found node
+	before.Append(data)
+
+	if after.Empty() {
+		fmt.Println("after is empty, answer is before")
+		return before
+	}
+
+	fmt.Println("before meged with after")
+	before.Tail().next = after
+	return before
+}
+
+func (self *LinkedListNode) Prepend(data interface{}) *LinkedListNode {
+	if self.data == nil {
+		self.data = data
+		return self
+	}
+	return &LinkedListNode{data: data, next: self}
 }
 
 // Find returns first node, if any, that contains data
@@ -75,19 +127,18 @@ func (self *LinkedListNode) FindLoop() *LinkedListNode {
 	return slow
 }
 
-func (self *LinkedListNode) Add(data interface{}) *LinkedListNode {
-	tail := NewLinkedList(data)
-
+func (self *LinkedListNode) Append(data interface{}) *LinkedListNode {
 	// empty case
 	if self.data == nil {
-		return tail
+		self.data = data
+		return self
 	}
 
 	// n-th case
 	node := self
 	for {
 		if node.next == nil {
-			node.next = tail
+			node.next = NewLinkedList(data)
 			break
 		}
 		node = node.next
@@ -135,6 +186,11 @@ func (self *LinkedListNode) Size() int {
 		if node == nil {
 			break
 		}
+
+		if node.data == nil {
+			break
+		}
+
 		size++
 		node = node.next
 	}

@@ -10,7 +10,7 @@ type Queue struct {
 
 func (self *Queue) Enqueue(elements ...interface{}) {
 	for _, e := range elements {
-		self.list = self.list.Add(e)
+		self.list = self.list.Append(e)
 	}
 }
 
