@@ -202,10 +202,6 @@ func (self *LinkedListNode) Size() int {
 			break
 		}
 
-		if node.data == nil {
-			break
-		}
-
 		size++
 		node = node.next
 	}
