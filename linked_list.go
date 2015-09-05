@@ -76,6 +76,7 @@ func (self *LinkedListNode) Partition(data interface{}) *LinkedListNode {
 		node = node.next
 	}
 
+	// merge
 	before.Tail().next = after
 	return before
 }
