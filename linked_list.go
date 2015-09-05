@@ -103,3 +103,22 @@ func (self *LinkedListNode) String() string {
 	}
 	return buf.String()
 }
+
+func (self *LinkedListNode) Head() *LinkedListNode {
+	return self
+}
+
+func (self *LinkedListNode) Tail() *LinkedListNode {
+	node := self
+	for {
+		if node.next == nil {
+			break
+		}
+		node = node.next
+	}
+	return node
+}
+
+func (self *LinkedListNode) Data() interface{} {
+	return self.data
+}

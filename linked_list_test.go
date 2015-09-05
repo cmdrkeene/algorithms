@@ -1,9 +1,20 @@
 package algorithms
 
-import (
-	"reflect"
-	"testing"
-)
+import "testing"
+
+func TestLinkedList_Head(t *testing.T) {
+	Expect(t).Equal(
+		NewLinkedList(1, 2, 3).Head().Data().(int),
+		1,
+	)
+}
+
+func TestLinkedList_Tail(t *testing.T) {
+	Expect(t).Equal(
+		NewLinkedList(1, 2, 3).Tail().Data().(int),
+		3,
+	)
+}
 
 func TestLinkedList_Size(t *testing.T) {
 	// given
@@ -65,18 +76,4 @@ func TestLinkedList_String(t *testing.T) {
 		NewLinkedList(1, 2, 3).String(),
 		"1->2->3",
 	)
-}
-
-func Expect(t *testing.T) *expectation {
-	return &expectation{t: t}
-}
-
-type expectation struct {
-	t *testing.T
-}
-
-func (e *expectation) Equal(a, b interface{}) {
-	if !reflect.DeepEqual(a, b) {
-		e.t.Error(a, "does not equal", b)
-	}
 }
