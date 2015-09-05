@@ -10,60 +10,44 @@ type Queue interface {
 
 func NewStackQueue() *StackQueue {
 	return &StackQueue{
-		forward: NewStack(),
-		reverse: NewStack(),
+		oldest: NewStack(),
+		newest: NewStack(),
 	}
 }
 
 type StackQueue struct {
-	forward *Stack
-	reverse *Stack
+	oldest *Stack
+	newest *Stack
 }
 
 func (self *StackQueue) Enqueue(elements ...interface{}) {
-	self.forward.Push(elements...)
+	self.newest.Push(elements...)
 }
 
-func (self *StackQueue) swap() {
-	for {
-		data := self.forward.Pop()
-		if data == nil {
-			break
+func (self *StackQueue) shift() {
+	if self.oldest.Empty() {
+		for !self.newest.Empty() {
+			self.oldest.Push(self.newest.Pop())
 		}
-		self.reverse.Push(data)
-	}
-}
-
-func (self *StackQueue) restore() {
-	for {
-		data := self.reverse.Pop()
-		if data == nil {
-			return
-		}
-		self.forward.Push(data)
 	}
 }
 
 func (self *StackQueue) Dequeue() interface{} {
-	self.swap()
-	data := self.reverse.Pop()
-	self.restore()
-	return data
+	self.shift()
+	return self.oldest.Pop()
 }
 
 func (self *StackQueue) Peek() interface{} {
-	self.swap()
-	data := self.reverse.Peek()
-	self.restore()
-	return data
+	self.shift()
+	return self.oldest.Peek()
 }
 
 func (self *StackQueue) Size() int {
-	return self.forward.Size()
+	return self.newest.Size() + self.oldest.Size()
 }
 
 func (self *StackQueue) Empty() bool {
-	return self.forward.Size() == 0
+	return self.Size() == 0
 }
 
 func NewLinkedListQueue() *LinkedListQueue {

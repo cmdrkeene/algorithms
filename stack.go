@@ -34,6 +34,10 @@ func (s *Stack) Size() int {
 	return s.list.Size()
 }
 
+func (s *Stack) Empty() bool {
+	return s.Size() == 0
+}
+
 func (s *Stack) String() string {
 	return s.list.String()
 }
