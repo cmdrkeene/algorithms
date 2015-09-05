@@ -22,11 +22,33 @@ type LinkedListNode struct {
 	next *LinkedListNode
 }
 
-func (self *LinkedListNode) Partition(data interface{}) *LinkedListNode {
-	found := self.Find(data)
+const (
+	LessThan    = -1
+	EqualTo     = 0
+	GreaterThan = 1
+)
 
+// Compare returns -1, 0, 1 to mean less than, equal, greater than
+// Cheat and cast to int
+func (self *LinkedListNode) Compare(a, b interface{}) int {
+	return compareInt(a.(int), b.(int))
+}
+
+func compareInt(a, b int) int {
+	if a < b {
+		return LessThan
+	}
+
+	if a > b {
+		return GreaterThan
+	}
+
+	return EqualTo
+}
+
+func (self *LinkedListNode) Partition(data interface{}) *LinkedListNode {
 	// Not found
-	if found == nil {
+	if self.Find(data) == nil {
 		return self
 	}
 
@@ -35,33 +57,25 @@ func (self *LinkedListNode) Partition(data interface{}) *LinkedListNode {
 	after := NewLinkedList()
 	node := self
 	for {
+		// end of list
 		if node == nil {
 			break
 		}
 
-		// ignore found
-		if node != found {
-			// put into appropriate bucket
-			if node.data.(int) < data.(int) {
-				before = before.Append(node.data)
-			} else {
-				after = after.Append(node.data)
-			}
+		// put into appropriate bucket
+		switch self.Compare(node.data, data) {
+		case EqualTo:
+			before.Append(node.data)
+		case LessThan:
+			before = before.Prepend(node.data)
+		case GreaterThan:
+			after = after.Append(node.data)
 		}
 
 		// advance cusror
 		node = node.next
 	}
 
-	// append found node
-	before.Append(data)
-
-	if after.Empty() {
-		fmt.Println("after is empty, answer is before")
-		return before
-	}
-
-	fmt.Println("before meged with after")
 	before.Tail().next = after
 	return before
 }

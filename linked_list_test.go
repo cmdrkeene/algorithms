@@ -5,7 +5,7 @@ import "testing"
 func TestLinkedList_Parition(t *testing.T) {
 	Expect(t).Equal(
 		NewLinkedList(5, 4, 3, 1, 2).Partition(3),
-		NewLinkedList(1, 2, 3, 5, 4),
+		NewLinkedList(2, 1, 3, 5, 4),
 	)
 }
 
