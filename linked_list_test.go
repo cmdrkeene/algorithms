@@ -2,6 +2,23 @@ package algorithms
 
 import "testing"
 
+func TestLinkedList_FindLoopWithoutLoop(t *testing.T) {
+	if NewLinkedList(1, 2, 3).FindLoop() != nil {
+		t.Error("no loop exists")
+	}
+}
+
+func TestLinkedList_FindLoop(t *testing.T) {
+	// given
+	list := NewLinkedList(1, 2, 3, 4, 5)
+
+	// when
+	list.Tail().next = list.Find(3)
+
+	// then
+	Expect(t).Equal(list.FindLoop(), list.Find(3))
+}
+
 func TestLinkedList_Head(t *testing.T) {
 	Expect(t).Equal(
 		NewLinkedList(1, 2, 3).Head().Data().(int),

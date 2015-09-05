@@ -22,6 +22,59 @@ type LinkedListNode struct {
 	next *LinkedListNode
 }
 
+// Find returns first node, if any, that contains data
+func (self *LinkedListNode) Find(data interface{}) *LinkedListNode {
+	node := self
+	for {
+		if node == nil {
+			return nil
+		}
+		if node.data == data {
+			return node
+		}
+		node = node.next
+	}
+}
+
+// FindLoop returns the node, if any, where the List starts looping
+func (self *LinkedListNode) FindLoop() *LinkedListNode {
+	// Use the runner method to look ahead into the list
+	slow := self
+	fast := self
+
+	// first pass
+	for {
+		// no loop exists if end is reached
+		if slow.next == nil || fast.next == nil {
+			return nil
+		}
+
+		slow = slow.next      // one element at a time
+		fast = fast.next.next // two elements at a time
+
+		// collision
+		if slow == fast {
+			break
+		}
+	}
+
+	// second pass starts slow at head, advances both at same speed until collision
+	slow = self
+	for {
+		slow = slow.next
+		fast = fast.next
+
+		// collision
+		if slow == fast {
+			break
+		}
+	}
+
+	// advance slow and fast at same speed until collision
+	// at collision, slow is now at loop start
+	return slow
+}
+
 func (self *LinkedListNode) Add(data interface{}) *LinkedListNode {
 	tail := NewLinkedList(data)
 
