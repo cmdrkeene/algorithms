@@ -5,25 +5,33 @@ import (
 	"fmt"
 )
 
-func NewLinkedList() *LinkedList {
-	return &LinkedList{}
+func NewLinkedList(elements ...interface{}) *LinkedListNode {
+	if len(elements) == 0 {
+		return &LinkedListNode{}
+	} else {
+		head := &LinkedListNode{data: elements[0]}
+		for _, e := range elements[1:] {
+			head.Add(e)
+		}
+		return head
+	}
 }
 
-type LinkedList struct {
-	head *LinkedListNode
+type LinkedListNode struct {
+	data interface{}
+	next *LinkedListNode
 }
 
-func (self *LinkedList) Add(data interface{}) *LinkedList {
-	tail := &LinkedListNode{data: data, next: nil}
+func (self *LinkedListNode) Add(data interface{}) *LinkedListNode {
+	tail := NewLinkedList(data)
 
-	// base case
-	if self.head == nil {
-		self.head = tail
-		return self
+	// empty case
+	if self.data == nil {
+		return tail
 	}
 
 	// n-th case
-	node := self.head
+	node := self
 	for {
 		if node.next == nil {
 			node.next = tail
@@ -36,20 +44,14 @@ func (self *LinkedList) Add(data interface{}) *LinkedList {
 }
 
 // Remove removes first element containing data
-func (self *LinkedList) Remove(data interface{}) *LinkedList {
-	// List is empty
-	if self.head == nil {
-		return self
-	}
-
+func (self *LinkedListNode) Remove(data interface{}) *LinkedListNode {
 	// List head removed
-	if self.head.data == data {
-		self.head = self.head.next
-		return self
+	if self.data == data {
+		return self.next
 	}
 
 	// Scan list body
-	node := self.head
+	node := self
 	for {
 		// End of list reached
 		if node == nil {
@@ -69,13 +71,9 @@ func (self *LinkedList) Remove(data interface{}) *LinkedList {
 	return self
 }
 
-func (self *LinkedList) Size() int {
-	if self.head == nil {
-		return 0
-	}
-
+func (self *LinkedListNode) Size() int {
 	var size int
-	node := self.head
+	node := self
 	for {
 		if node == nil {
 			break
@@ -87,10 +85,10 @@ func (self *LinkedList) Size() int {
 	return size
 }
 
-func (self *LinkedList) String() string {
+func (self *LinkedListNode) String() string {
 	buf := bytes.NewBufferString("")
 
-	node := self.head
+	node := self
 	for {
 		if node == nil {
 			break
@@ -104,9 +102,4 @@ func (self *LinkedList) String() string {
 		node = node.next
 	}
 	return buf.String()
-}
-
-type LinkedListNode struct {
-	data interface{}
-	next *LinkedListNode
 }

@@ -7,13 +7,13 @@ import (
 
 func TestLinkedList_Size(t *testing.T) {
 	// given
-	list := NewLinkedList()
+	list := NewLinkedList(1, 2, 3)
 
 	// when
-	list.Add(1).Add(2).Add(3)
+	size := list.Size()
 
 	// then
-	Expect(t).Equal(list.Size(), 3)
+	Expect(t).Equal(size, 3)
 }
 
 func TestLinkedList_RemoveHead(t *testing.T) {
@@ -21,7 +21,7 @@ func TestLinkedList_RemoveHead(t *testing.T) {
 	list := NewLinkedList().Add(1).Add(2).Add(3)
 
 	// when
-	list.Remove(1)
+	list = list.Remove(1)
 
 	// then
 	Expect(t).Equal(list.String(), "2->3")
@@ -54,21 +54,17 @@ func TestLinkedList_RemoveBody(t *testing.T) {
 	list := NewLinkedList().Add(1).Add(2).Add(3)
 
 	// when
-	list.Remove(2)
+	list = list.Remove(2)
 
 	// then
 	Expect(t).Equal(list.String(), "1->3")
 }
 
 func TestLinkedList_String(t *testing.T) {
-	// given
-	list := NewLinkedList()
-
-	// when
-	list.Add(1).Add(2).Add(3)
-
-	// then
-	Expect(t).Equal(list.String(), "1->2->3")
+	Expect(t).Equal(
+		NewLinkedList(1, 2, 3).String(),
+		"1->2->3",
+	)
 }
 
 func Expect(t *testing.T) *expectation {
