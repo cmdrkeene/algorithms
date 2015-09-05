@@ -6,15 +6,8 @@ import (
 )
 
 func NewLinkedList(elements ...interface{}) *LinkedListNode {
-	if len(elements) == 0 {
-		return &LinkedListNode{}
-	} else {
-		head := &LinkedListNode{data: elements[0]}
-		for _, e := range elements[1:] {
-			head.Append(e)
-		}
-		return head
-	}
+	head := &LinkedListNode{}
+	return head.Append(elements...)
 }
 
 type LinkedListNode struct {
@@ -142,23 +135,15 @@ func (self *LinkedListNode) FindLoop() *LinkedListNode {
 	return slow
 }
 
-func (self *LinkedListNode) Append(data interface{}) *LinkedListNode {
-	// node exists but has been wiped
-	if self.data == nil {
-		self.data = data
-		return self
-	}
-
-	// n-th case
-	node := self
-	for {
-		if node.next == nil {
-			node.next = NewLinkedList(data)
-			break
+func (self *LinkedListNode) Append(elements ...interface{}) *LinkedListNode {
+	for _, e := range elements {
+		// head is empty
+		if self.data == nil {
+			self.data = e
+		} else {
+			self.Tail().next = NewLinkedList(e)
 		}
-		node = node.next
 	}
-
 	return self
 }
 
