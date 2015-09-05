@@ -71,6 +71,10 @@ func (self *LinkedListNode) Remove(data interface{}) *LinkedListNode {
 	return self
 }
 
+func (self *LinkedListNode) Empty() bool {
+	return self.Size() == 0
+}
+
 func (self *LinkedListNode) Size() int {
 	var size int
 	node := self

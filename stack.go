@@ -21,13 +21,13 @@ func (s *Stack) Push(elements ...interface{}) {
 }
 
 func (s *Stack) Pop() interface{} {
-	if s.list.Size() == 0 {
+	if s.list.Empty() {
 		return nil
 	}
 
-	data := s.list.Tail().Data()
-	s.list = s.list.Remove(data)
-	return data
+	tail := s.list.Tail().Data()
+	s.list = s.list.Remove(tail)
+	return tail
 }
 
 func (s *Stack) Size() int {
