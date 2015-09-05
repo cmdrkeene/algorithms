@@ -12,6 +12,7 @@ func TestQueue(t *testing.T) {
 	Expect(t).Equal(queue.Size(), 3)
 
 	// Peek
+	Expect(t).Equal(queue.Peek(), 1)
 
 	// Dequeue
 	Expect(t).Equal(queue.Dequeue(), 1)
