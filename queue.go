@@ -15,6 +15,10 @@ func NewStackQueue() *StackQueue {
 	}
 }
 
+// StackQueue uses two Stacks to provide a Queue
+// Stacks and Queues use LIFO and FIFO ordering respectively
+// To achieve FIFO order, the newest stack is shifted onto oldest in reverse
+// Shifting is only performed when needed (oldest is depleted)
 type StackQueue struct {
 	oldest *Stack
 	newest *Stack
@@ -22,14 +26,6 @@ type StackQueue struct {
 
 func (self *StackQueue) Enqueue(elements ...interface{}) {
 	self.newest.Push(elements...)
-}
-
-func (self *StackQueue) shift() {
-	if self.oldest.Empty() {
-		for !self.newest.Empty() {
-			self.oldest.Push(self.newest.Pop())
-		}
-	}
 }
 
 func (self *StackQueue) Dequeue() interface{} {
@@ -40,6 +36,15 @@ func (self *StackQueue) Dequeue() interface{} {
 func (self *StackQueue) Peek() interface{} {
 	self.shift()
 	return self.oldest.Peek()
+}
+
+// shift reverses newest into oldest
+func (self *StackQueue) shift() {
+	if self.oldest.Empty() {
+		for !self.newest.Empty() {
+			self.oldest.Push(self.newest.Pop())
+		}
+	}
 }
 
 func (self *StackQueue) Size() int {

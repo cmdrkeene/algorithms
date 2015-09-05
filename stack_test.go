@@ -12,6 +12,9 @@ func TestStack(t *testing.T) {
 	// Push
 	stack.Push(1, 2, 3)
 
+	// String
+	Expect(t).Equal(stack.String(), "1->2->3")
+
 	// Size
 	Expect(t).Equal(stack.Size(), 3)
 

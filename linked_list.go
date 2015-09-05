@@ -143,11 +143,6 @@ func (self *LinkedListNode) FindLoop() *LinkedListNode {
 }
 
 func (self *LinkedListNode) Append(data interface{}) *LinkedListNode {
-	// empty list
-	if self == nil {
-		return &LinkedListNode{data: data, next: nil}
-	}
-
 	// node exists but has been wiped
 	if self.data == nil {
 		self.data = data
