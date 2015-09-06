@@ -9,6 +9,9 @@ It's dangerous to go alone!
 * LinkedList
 * Stack
 * Queue
+* Trees
+  * Depth First Search
+  * Breadth First Search
 
 ## Author
 
@@ -16,4 +19,4 @@ Brandon Keene is an unemployable programmer in New York City.
 
 ## License
 
-¯\_(ツ)_/¯
+¯\\_(ツ)_/¯
