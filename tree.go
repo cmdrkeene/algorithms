@@ -59,7 +59,6 @@ func BreadthFirstSearch(root *TreeNode, visit visitFunc) {
 			if !node.Visited {
 				visit(node)
 				node.Visited = true
-				fmt.Println("enqueue", node, "from", next)
 				queue.Enqueue(node)
 			}
 		}
