@@ -8,6 +8,10 @@ type Queue interface {
 	Empty() bool
 }
 
+func NewQueue() Queue {
+	return NewLinkedListQueue()
+}
+
 func NewStackQueue() *StackQueue {
 	return &StackQueue{
 		oldest: NewStack(),

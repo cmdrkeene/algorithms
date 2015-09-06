@@ -139,6 +139,11 @@ func (self *LinkedListNode) FindLoop() *LinkedListNode {
 
 func (self *LinkedListNode) Append(elements ...interface{}) *LinkedListNode {
 	for _, e := range elements {
+		// head is nil
+		if self == nil {
+			self = NewLinkedList()
+		}
+
 		// head is empty
 		if self.data == nil {
 			self.data = e

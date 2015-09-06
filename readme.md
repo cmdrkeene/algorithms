@@ -4,7 +4,7 @@ Even though you're likely writing some Python script to move data from System A 
 
 It's dangerous to go alone!
 
-## Covered Topics
+## Topics
 
 * LinkedList
 * Stack

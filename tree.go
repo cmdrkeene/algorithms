@@ -15,14 +15,9 @@ type TreeNode struct {
 	Visited  bool
 }
 
-func (self *TreeNode) Leaves(leaves ...interface{}) *TreeNode {
-	for _, leaf := range leaves {
-		switch t := leaf.(type) {
-		case *TreeNode:
-			self.Adjacent = append(self.Adjacent, t)
-		default:
-			self.Adjacent = append(self.Adjacent, NewTree(leaf))
-		}
+func (self *TreeNode) Leaves(nodes ...*TreeNode) *TreeNode {
+	for _, node := range nodes {
+		self.Adjacent = append(self.Adjacent, node)
 	}
 	return self
 }
@@ -41,9 +36,32 @@ func DepthFirstSearch(root *TreeNode, visit visitFunc) {
 	visit(root)
 	root.Visited = true
 
-	for _, n := range root.Adjacent {
-		if !n.Visited {
-			DepthFirstSearch(n, visit)
+	for _, node := range root.Adjacent {
+		if !node.Visited {
+			DepthFirstSearch(node, visit)
+		}
+	}
+}
+
+func BreadthFirstSearch(root *TreeNode, visit visitFunc) {
+	if root == nil {
+		return
+	}
+
+	queue := NewQueue()
+	visit(root)
+	root.Visited = true
+	queue.Enqueue(root)
+
+	for !queue.Empty() {
+		next := queue.Dequeue()
+		for _, node := range next.(*TreeNode).Adjacent {
+			if !node.Visited {
+				visit(node)
+				node.Visited = true
+				fmt.Println("enqueue", node, "from", next)
+				queue.Enqueue(node)
+			}
 		}
 	}
 }

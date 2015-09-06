@@ -38,4 +38,8 @@ func runQueueTest(t *testing.T, queue Queue) {
 
 	// Dequeue when empty
 	Expect(t).Equal(queue.Dequeue(), nil)
+
+	// Enqueue after empty
+	queue.Enqueue(1)
+	Expect(t).Equal(queue.Size(), 1)
 }
