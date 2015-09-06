@@ -32,7 +32,17 @@ func (self *BinaryTreeNode) node(value interface{}) *BinaryTreeNode {
 	}
 }
 
+// IsBalancedOptimized runs in O(N) time and O(TreeHeight) space
+func (self *BinaryTreeNode) IsBalancedOptimized() bool {
+	if checkHeight(self) == NotBalanced {
+		return false
+	} else {
+		return true
+	}
+}
+
 // IsBalanced returns if subtree heights do not vary by more than 1
+// Runs in O(N log N) time
 func (self *BinaryTreeNode) IsBalanced() bool {
 	if self == nil {
 		return true
@@ -55,6 +65,31 @@ func absInt(a int) int {
 
 func maxInt(a, b int) int {
 	return int(math.Max(float64(a), float64(b)))
+}
+
+const NotBalanced = -1
+
+func checkHeight(root *BinaryTreeNode) int {
+	if root == nil {
+		return 0
+	}
+
+	leftHeight := checkHeight(root.left)
+	if leftHeight == NotBalanced {
+		return NotBalanced
+	}
+
+	rightHeight := checkHeight(root.right)
+	if rightHeight == NotBalanced {
+		return NotBalanced
+	}
+
+	diff := absInt(leftHeight - rightHeight)
+	if diff > 1 {
+		return NotBalanced
+	} else {
+		return maxInt(leftHeight, rightHeight) + 1
+	}
 }
 
 func getHeight(root *BinaryTreeNode) int {

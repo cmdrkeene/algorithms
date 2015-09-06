@@ -25,3 +25,27 @@ func TestBinaryTree_IsBalanced(t *testing.T) {
 		false,
 	)
 }
+
+func TestBinaryTree_IsBalancedOptimized(t *testing.T) {
+	// Null Tree
+	Expect(t).Equal(
+		(&BinaryTreeNode{}).IsBalancedOptimized(),
+		true,
+	)
+
+	// Simple Blanced Tree
+	Expect(t).Equal(
+		NewBinaryTree(1).Left(2).Right(3).IsBalancedOptimized(),
+		true,
+	)
+
+	// Simple Unbalanced Tree
+	Expect(t).Equal(
+		NewBinaryTree(1).Left(
+			NewBinaryTree(2).Left(
+				NewBinaryTree(3).Right(4),
+			),
+		).Right(5).IsBalancedOptimized(),
+		false,
+	)
+}
