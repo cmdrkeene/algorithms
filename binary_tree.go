@@ -59,14 +59,6 @@ func (self *BinaryTreeNode) IsBalanced() bool {
 	}
 }
 
-func absInt(a int) int {
-	return int(math.Abs(float64(a)))
-}
-
-func maxInt(a, b int) int {
-	return int(math.Max(float64(a), float64(b)))
-}
-
 const NotBalanced = -1
 
 func checkHeight(root *BinaryTreeNode) int {
@@ -101,4 +93,12 @@ func getHeight(root *BinaryTreeNode) int {
 		getHeight(root.left),
 		getHeight(root.right),
 	) + 1
+}
+
+func absInt(a int) int {
+	return int(math.Abs(float64(a)))
+}
+
+func maxInt(a, b int) int {
+	return int(math.Max(float64(a), float64(b)))
 }
